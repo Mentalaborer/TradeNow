@@ -17,32 +17,32 @@ library(tidyverse)
 library(lubridate)
 library(tidyquant) 
 
-setwd("~/Desktop/Meow/TradeAnalytics")
-
-# Source Stock Baskets
-source("TradeNow/stock_download.R") 
-
-#### Select which basket of stocks want to explore ####
-
- tickers <- mary_jane
-# tickers <- restaurant
-# tickers <- real_estate
-# tickers <- oil_gas
-# tickers <- tech
-
- 
-# set parameters
-first.date <- Sys.Date()-60 #last 60 days
-last.date <- Sys.Date()
-freq.data <- 'daily'
-
-# fetch data
-l.out <- BatchGetSymbols(tickers = tickers,
-                         first.date = first.date,
-                         last.date = last.date, do.cache=FALSE)
-
-print(l.out$df.control)
-stock_historical <- print(l.out$df.tickers)
+# setwd("~/Desktop/Meow/TradeAnalytics")
+# 
+# # Source Stock Baskets
+# source("TradeNow/stock_download.R") 
+# 
+# #### Select which basket of stocks want to explore ####
+# 
+#  tickers <- mary_jane
+# # tickers <- restaurant
+# # tickers <- real_estate
+# # tickers <- oil_gas
+# # tickers <- tech
+# 
+#  
+# # set parameters
+# first.date <- Sys.Date()-60 #last 60 days
+# last.date <- Sys.Date()
+# freq.data <- 'daily'
+# 
+# # fetch data
+# l.out <- BatchGetSymbols(tickers = tickers,
+#                          first.date = first.date,
+#                          last.date = last.date, do.cache=FALSE)
+# 
+# print(l.out$df.control)
+# stock_historical <- print(l.out$df.tickers)
 
 # graph
 
