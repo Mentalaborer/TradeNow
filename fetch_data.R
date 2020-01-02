@@ -1,5 +1,5 @@
 
-# GOAL - CREATE A DATAFRAME AND REFORMAT TO XTS OBJET
+# GOAL - FETCH DATA FROM YAHOO AS A DATAFRAME AND REFORMAT TO XTS OBJET
 
 library(BatchGetSymbols)
 library(dplyr)
@@ -11,13 +11,12 @@ library(timetk)
 
 
 setwd("~/Desktop/Meow/TradeAnalytics")
-
 # Source Stock Baskets
-source("TradeNow/stock_download.R") 
+source("TradeNow/stock_download.R")
 
 
 
-###################################### NEW ################################################
+####################################### Set Date Parameters and Select Basket of Stocks ########################################################
 
 initdate <- "2017-01-01"
 from <- "2018-01-01" #start of backtest
@@ -26,17 +25,15 @@ to <- Sys.Date() #end of backtest
 Sys.setenv(TZ= "UTC") #Set up environment for timestamps
 currency("USD") #Set up environment for currency to be use
 
-
-# Source Stock Baskets
-source("TradeNow/stock_download.R")
-
 symbols <- mary_jane #symbols used in our backtest
 
-# fetch data
+
+####################################### Fetch Data ########################################################################################
+
 batch.out <- BatchGetSymbols(tickers = symbols,
                          first.date = initdate,
                          last.date = to, 
-                         thresh.bad.data = 0.25,
+                         thresh.bad.data = 0.25, # test to see right threshold
                          do.complete.data = TRUE, # If TRUE, all missing pairs of ticker-date will be replaced by NA or closest price
                          do.fill.missing.prices = FALSE, # Finds all missing prices and replaces them by their closest price with preference for the previous price
                          do.cache=FALSE)
@@ -64,5 +61,5 @@ getSymbols(Symbols = stock_valid$ticker,
            adjust = TRUE) #receive data from yahoo finance,  adjusted for splits/dividends, xts format
 
 
-###############################################################################################
+## END ############################################################################################
 
