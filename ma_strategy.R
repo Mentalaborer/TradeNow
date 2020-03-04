@@ -1,4 +1,4 @@
-
+#testing
 # code reference: http://past.rinfinance.com/agenda/2018/BrianPeterson.html#15
 
 
@@ -19,7 +19,6 @@
  # finish and test this script (done)
  # rename strategy as moving average (done)
  # allow for pulling data for multiple stocks - maybe use batch symbols function
- # write conditional statements for trade stats tablez
  # functionalize
  # create a cover page that sources each strategy script / function
  
@@ -31,8 +30,6 @@ library(TTR)
 library(png)
 library(IKTrading)
 
-setwd("~/Desktop/Meow/TradeAnalytics")
-
 
 
 ################################################ Strategy Overview ################################################ 
@@ -43,27 +40,53 @@ setwd("~/Desktop/Meow/TradeAnalytics")
 
 
 
-################################################ Remove old strategies ############################################ 
 
- rm(list = ls(.blotter), envir = .blotter) # remove blotter from global env but will cause errors when initialize strategt
+
+################################################ Initialization ############################################ 
+
+# rm(list = ls(.blotter), envir = .blotter) # remove blotter from global env but will cause errors when initialize strategt
  if (!exists('.blotter')) .blotter <- new.env() # adds blotter back to environment
 
 #removes old portfolio and strategy from environment
- rm.strat(portfolio.st)
- rm.strat(strategy.st) 
+# rm.strat(portfolio.st)
+# rm.strat(strategy.st) 
  if (!exists('.strategy')) .strategy <- new.env() 
  
+ # Source Stock Baskets
+ source("TradeNow/stock_download.R")
+
+
+initdate <- "2015-01-01"
+from <- "2017-01-01" #start of backtest
+to <- Sys.Date() #end of backtest
+
+Sys.setenv(TZ= "UTC") #Set up environment for timestamps
+currency("USD") #Set up environment for currency to be use
+
+################################################ Get Data ################################################ 
+
+symbols <- mary_jane #symbols used in our backtest
+getSymbols(Symbols = symbols, 
+           src = "yahoo", 
+           from=from, 
+           to=to, 
+           strict = TRUE, # stop conversion of NA values
+         #  missing = na.approx(),
+           adjust = TRUE) #receive data from yahoo finance,  adjusted for splits/dividends, xts format
+
+stock(symbols, currency = "USD", multiplier = 1) #tells quanstrat what instruments present and what currency to use
+
+focal_stock <- c('SMG', 'CVSI', 'CWEB')
+
 ################################################ set account parameters ################################### 
 
 tradesize <-500 #default trade size
 initeq <- 1000 #default initial equity in our portfolio
 
-
-stock(stock_valid$ticker, currency = "USD", multiplier = 1) #tells quanstrat what instruments present and what currency to use
 strategy.st <- portfolio.st <- account.st <- "firststrat" #naming strategy, portfolio and account
 
 #initialize portfolio, account, orders and strategy objects
-initPortf(portfolio.st, symbols = stock_valid$ticker, initDate = initdate, currency = "USD")
+initPortf(portfolio.st, symbols = focal_stock, initDate = initdate, currency = "USD") # FIXME: update data when have mulitple stocks
 initAcct(account.st, portfolios = portfolio.st, initDate = initdate, currency = "USD", initEq = initeq)
 initOrders(portfolio.st, initDate = initdate)
 strategy(strategy.st, store=TRUE)
@@ -74,7 +97,7 @@ strategy(strategy.st, store=TRUE)
 # 200 day moving average
 add.indicator(strategy = strategy.st,
               name = 'SMA',
-              arguments = list(x = quote(Cl(mktdata)), n=100),
+              arguments = list(x = quote(Cl(mktdata)), n=200),
               label = 'SMA200')
 
 # 50 day moving average
@@ -189,9 +212,9 @@ plot(RSI(Cl(single_stock), n=10))
 # FIXME to plot multiple stocks
 
 
-for(symbols in stock_valid$ticker){
+for(symbol in symbols){
   
-  chart.Posn(Portfolio = portfolio.st, Symbol = stock_valid$ticker, 
+  chart.Posn(Portfolio = portfolio.st, Symbol = focal_stock, 
              TA= c("add_SMA(n=50, col='blue')", "add_SMA(n=200, col='red')"))
 }
 
