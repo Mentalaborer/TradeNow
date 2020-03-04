@@ -1,7 +1,10 @@
 
 ## Next steps:  1) from script, come up with analysis outline based on topics here 
 #               2) do analysis based on code here
-
+#                3) write a function to get prices at different levels (minute, day, week, month)
+#                   source this function on a separate script
+                
+                
 library(forecast)
 library(ggplot2)
 library(ggfortify)
