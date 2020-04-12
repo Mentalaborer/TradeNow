@@ -3,7 +3,6 @@
 # forecast the adjusted stock price for X days in the future
 
 
-
 library(zoo)
 library(tseries)
 library(urca)
@@ -18,7 +17,7 @@ library(PerformanceAnalytics)
 
 # load symbols
 
-# symbols is from the fetch_data script but should source directly
+# symbols is from the fetch_data script but should source directly, OR
 
 
 # call a specific symbol directly
