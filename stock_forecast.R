@@ -1,4 +1,11 @@
 
+
+
+
+#### DEPRECATED ##### 
+
+
+
 ## Purpose is to explore past performance, see autocorrelation and 
 # forecast the adjusted stock price for X days in the future
 
