@@ -11,47 +11,26 @@
 
 # Purpose: To explore a basket of stocks to identify what's up and coming
 
+
+# libraries 
 library(BatchGetSymbols)
 library(dplyr)
 library(tidyverse)
 library(lubridate)
 library(tidyquant) 
+library(quantmod)
 
-setwd("~/Desktop/Meow/TradeAnalytics")
 
-# Source Stock Baskets
-source("TradeNow/stock_download.R") 
 
-#### Select which basket of stocks want to explore ####
-
- tickers <- mary_jane
-# tickers <- restaurant
-# tickers <- real_estate
-# tickers <- oil_gas
-# tickers <- tech
-
- 
-# set parameters
-first.date <- Sys.Date()-60 #last 60 days
-last.date <- Sys.Date()
-freq.data <- 'daily'
-
-# fetch data
-l.out <- BatchGetSymbols(tickers = tickers,
-                         first.date = first.date,
-                         last.date = last.date, do.cache=FALSE)
-
-print(l.out$df.control)
-stock_historical <- print(l.out$df.tickers)
+################# Basket of Stocks Exploration ################# 
 
 # graph
-
-stock_historical %>%
+plot_actual <- stock_historical %>%
   ggplot(aes(x = ref.date, y = price.close, color = ticker)) + 
   geom_line()
 
 # graph 2
-stock_historical %>% 
+plot_trend <- stock_historical %>% 
   ggplot(aes(x = ref.date, y = price.close)) + 
   geom_line(color="darkorange") + 
   geom_smooth(method="lm") +
@@ -60,7 +39,7 @@ stock_historical %>%
   facet_wrap(~ticker, scales = 'free_y') 
 
 
-stock_historical %>%
+plot_hi_lo <- stock_historical %>%
   ggplot(aes(x = ref.date, y = price.close)) +
   geom_barchart(aes(open = price.open, high = price.high, low = price.low, close = price.close)) +
   labs(title = "Bar Chart", y = "Closing Price", x = "") + 
@@ -69,8 +48,7 @@ stock_historical %>%
 
 
 # candlestick
-
-stock_historical %>%
+plot_candle <- stock_historical %>%
   ggplot(aes(x = ref.date, y = price.close)) +
   geom_candlestick(aes(open = price.open, 
                        high = price.high, 
@@ -78,13 +56,12 @@ stock_historical %>%
                    colour_up = 'darkgreen', colour_down = 'darkred',
                    fill_up = 'darkgreen', fill_down = 'darkred') +
   labs(caption="Source: Yahoo") +
-  labs(title = "Top High Growth Weed Stocks over Last 60 Days", y = "Closing Price", x = "") +
+  labs(title = "Basket of Stocks over Last 60 Days", y = "Closing Price", x = "") +
   theme_tq() +
   facet_wrap(~ticker, scales = 'free_y') 
 
 # Simple Moving Averages
-
-stock_historical %>% 
+plot_ma <- stock_historical %>% 
   ggplot(aes(x = ref.date, y = price.adjusted)) + 
   geom_line() +                         # Plot stock price
   geom_ma(ma_fun = SMA, n = 20) +                 # Plot 50-day SMA
@@ -93,8 +70,29 @@ stock_historical %>%
   #             ylim = c(100, 130))  + 
   facet_wrap(~ticker, scales = 'free_y') 
 
-class(stock_historical)
-
 # Predict / forecast closing prices: https://otexts.com/fpp2/simple-methods.html
+
+## Explore Focal Stock
+
+chartSeries(focal_stock,
+            type="line",
+            subset='2020',
+            theme=chartTheme('white'))
+
+
+chartSeries(focal_stock,
+            type="bar",
+            subset='2020',
+            theme=chartTheme('white'))
+
+########### PLOTS ###############
+
+# plot_actual
+# plot_trend
+# plot_hi_lo
+# plot_candle
+# plot_ma
+# # plot_actual_focal
+# # plot_hi_lo_focal
 
 
