@@ -93,7 +93,7 @@ plot_hi_lo_focal <- chartSeries(focal_stock,
 # plot_hi_lo
 # plot_candle
 # plot_ma
-# # plot_actual_focal
+# plot_actual_focal
 # # plot_hi_lo_focal
 
 

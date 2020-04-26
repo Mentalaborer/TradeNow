@@ -13,7 +13,7 @@
 #### Type of Focal Stock to Fetch ####
 
 # focal stock
-stock <- "FB"
+stock <- "WORK"
 
 # set historical date parameters and frequency
 first.date <- Sys.Date()-60 #last 60 days
@@ -28,8 +28,8 @@ source("stock_download.R")
 # tickers <- mary_jane
 # tickers <- restaurant
 # tickers <- real_estate
-tickers <- oil_gas
-# tickers <- tech
+# tickers <- oil_gas
+ tickers <- tech
 
 #### Fetch Data ####
 source("fetch_data.R")

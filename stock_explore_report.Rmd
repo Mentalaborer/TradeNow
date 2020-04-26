@@ -18,7 +18,7 @@ source('global_filters.R')
 
 ```
 
-
+Comparison of closing prices for basket of stocks
 
 ```{r echo=FALSE, warning=TRUE}
 
@@ -27,6 +27,7 @@ plot_actual
 
 ```
 
+Trend Series of closing prices for basket of stocks
 
 ```{r echo=FALSE, warning=TRUE}
 
@@ -35,13 +36,15 @@ plot_trend
 
 ```
 
-
+Trend of daily Hi and Lo prices among basket of stocks
 ```{r echo=FALSE, warning=TRUE}
 
 plot_hi_lo
 
 
 ```
+
+Trend of daily buy and sell-offs among basket of stocks
 
 ```{r echo=FALSE, warning=TRUE}
 
@@ -50,6 +53,8 @@ plot_candle
 
 ```
 
+Short and Long term moving averages among basket of stocks
+
 ```{r echo=FALSE, warning=TRUE}
 
 
@@ -57,12 +62,32 @@ plot_ma
 
 ```
 
+### Price Investigation of a Single Stock of Interest
+
+
+TO DO:  Suppress data output and keep charts only
+
 ```{r echo=FALSE, warning=TRUE}
 
 
 plot_actual_focal
+
+
+```
+
+```{r echo=FALSE, warning=TRUE}
+
+
+
 plot_hi_lo_focal
 
 ```
+
+
+
+
+
+
+
 
 
