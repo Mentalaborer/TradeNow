@@ -7,7 +7,7 @@ library(tidyverse)
 library(lubridate)
 library(tidyquant) 
 library(timetk)
-# library(timeSeries)
+library(timeSeries)
 
 
 ####################################### Fetch Data ########################################################################################

@@ -36,19 +36,19 @@ source("global_filters.R")
 
 # load symbols
 # symbols is from the fetch_data script but should source directly, OR
-data_env <- new.env()
-
-# call a specific symbol directly
-focal_stock <- getSymbols('ABT', src = "yahoo", from = "2020-01-01",
-           auto.assign = F, return.class = "xts", env = data_env)
-
-
-colnames(focal_stock) <- paste("focal", 
-                             c("Open", "High", "Low", "Close", "Volume", "Adjusted"), 
-                             sep = "_")
-
-# selct adjusted column only
-focal_stock_adjusted <- focal_stock$focal_Adjusted
+# data_env <- new.env()
+# 
+# # call a specific symbol directly
+# focal_stock <- getSymbols(stock, src = "yahoo", from = "2020-01-01",
+#            auto.assign = F, return.class = "xts", env = data_env)
+# 
+# 
+# colnames(focal_stock) <- paste("focal", 
+#                              c("Open", "High", "Low", "Close", "Volume", "Adjusted"), 
+#                              sep = "_")
+# 
+# # selct adjusted column only
+# focal_stock_adjusted <- focal_stock$focal_Adjusted
 
 ```
 
@@ -176,7 +176,11 @@ arima_sweep_display %>%
 ```
 
 
+```{r}
 
+#plot_hi_lo
+
+```
 
 
 

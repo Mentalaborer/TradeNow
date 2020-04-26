@@ -20,12 +20,13 @@ library(lubridate)
 library(tidyquant) 
 library(quantmod)
 
-
+#source('fetch_data.R')
 
 ################# Basket of Stocks Exploration ################# 
 
 # graph
-plot_actual <- stock_historical %>%
+ plot_actual <- 
+  stock_historical %>%
   ggplot(aes(x = ref.date, y = price.close, color = ticker)) + 
   geom_line()
 
@@ -74,13 +75,13 @@ plot_ma <- stock_historical %>%
 
 ## Explore Focal Stock
 
-chartSeries(focal_stock,
+plot_actual_focal <- chartSeries(focal_stock,
             type="line",
             subset='2020',
             theme=chartTheme('white'))
 
 
-chartSeries(focal_stock,
+plot_hi_lo_focal <- chartSeries(focal_stock,
             type="bar",
             subset='2020',
             theme=chartTheme('white'))
