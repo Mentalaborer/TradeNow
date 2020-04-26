@@ -3,7 +3,7 @@ title: "stock_chart_tech_indicators_report"
 output: html_document
 ---
 
-```{r}
+```{r include=FALSE}
 
 source("global_filters.R")
 

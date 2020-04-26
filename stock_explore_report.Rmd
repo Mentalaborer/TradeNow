@@ -6,12 +6,12 @@ output: html_document
 
 ```{r include=FALSE}
 # libraries 
-library(BatchGetSymbols)
-library(dplyr)
-library(tidyverse)
-library(lubridate)
-library(tidyquant) 
-library(quantmod)
+# library(BatchGetSymbols)
+# library(dplyr)
+# library(tidyverse)
+# library(lubridate)
+# library(tidyquant) 
+# library(quantmod)
 
 
 source('global_filters.R')

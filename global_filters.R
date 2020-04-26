@@ -3,11 +3,22 @@
 
 # NEXT STEPS:
 
-# 1. create new .RMD file and include only chart explore objects
-# 2. add new exploration charts to stock_explore- 
+# 1. create new .RMD file and include only chart explore objects - done
+# 2. add new tech indicator charts to stock_explore- 
 # https://bookdown.org/kochiuyu/Technical-Analysis-with-R/charting.html
 
-
+library(zoo)
+library(tseries)
+library(tidyverse)
+library(urca)
+library(PerformanceAnalytics)
+library(quantmod)
+library(xts)
+library(tseries)
+library(quantmod)
+library(forecast)
+library(sweep)
+library(PerformanceAnalytics)
 
 
 #### Type of Focal Stock to Fetch ####
@@ -35,12 +46,21 @@ source("stock_download.R")
 source("fetch_data.R")
 
 #### Exploration ####
-source("stock_explore.R")
+#source("stock_explore.R")
 
 #### Forecast Options ####
 lag.max = 10 # days to look back
 h = 5 # days to predict ahead (if change, then need to change dates) 
 historical_prices = 30 # x number of days of historical data to plot
+
+
+
+
+
+
+
+
+
 
 
 
