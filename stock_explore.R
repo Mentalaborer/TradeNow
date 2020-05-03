@@ -73,18 +73,7 @@ plot_ma <- stock_historical %>%
 
 # Predict / forecast closing prices: https://otexts.com/fpp2/simple-methods.html
 
-## Explore Focal Stock
 
-plot_actual_focal <- chartSeries(focal_stock,
-            type="line",
-            subset='2020',
-            theme=chartTheme('white'))
-
-
-plot_hi_lo_focal <- chartSeries(focal_stock,
-            type="bar",
-            subset='2020',
-            theme=chartTheme('white'))
 
 ########### PLOTS ###############
 

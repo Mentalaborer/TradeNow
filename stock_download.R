@@ -45,18 +45,14 @@ real_estate <- c('KRG',
 
 oil_gas <- c('EQM', 
              'BP',
-             'RDS-A',
-             'EQNR',
-             'TOT',
-             'XOM',
-             'E',
-             'CVX',
-             'PTR',
-             'COP',
-             'ENI',
-             'OXY',
-             'SU',
-             'CNQ')
+             'EP',  # Energy Transfer LP (high yield)
+             'CVX', # chevron
+             'PTR', # petro china company limited (china's equivalent to chevon and exxon)
+             'CEQP',# Crestwood equity partners (high yield)
+             'OXY', # occidental petroleum
+             'BEP', # brookfield renewable 
+             'PSXP', #
+             'EPD')
 
 tech <- c('FB',
           'MSFT',
@@ -64,6 +60,7 @@ tech <- c('FB',
           'BABA',
           'IBM',
           'AMZN',
-          'DOCU',
+          'LOGI',
           'WORK',
+          'TWTR',
           'TCEHY')

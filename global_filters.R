@@ -19,12 +19,13 @@ library(quantmod)
 library(forecast)
 library(sweep)
 library(PerformanceAnalytics)
+library(TTR)
 
 
 #### Type of Focal Stock to Fetch ####
 
 # focal stock
-stock <- "WORK"
+stock <- "LOGI"
 
 # set historical date parameters and frequency
 first.date <- Sys.Date()-60 #last 60 days
@@ -47,6 +48,12 @@ source("fetch_data.R")
 
 #### Exploration ####
 #source("stock_explore.R")
+
+#### Filters for Moving Average ####
+
+past_days <- 20  # average of prices in the past n days (averaging over n periods)
+momentum_days = 2 # Number of days of momentum based on closing price
+relative_strength_days = 14 # RSI
 
 #### Forecast Options ####
 lag.max = 10 # days to look back

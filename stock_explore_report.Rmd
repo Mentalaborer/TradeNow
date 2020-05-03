@@ -15,6 +15,7 @@ output: html_document
 
 
 source('global_filters.R')
+source('stock_explore.R')
 
 ```
 

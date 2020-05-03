@@ -1,0 +1,52 @@
+---
+title: "stock_tech_indicators_report"
+output: html_document
+---
+
+```{r include=FALSE}
+
+source('global_filters.R')
+source('technical_indicators.R')
+
+
+## NEXT STEP - interpret each indicator
+
+```
+
+
+
+```{r}
+
+# plot hi and low prices 
+chartSeries(focal_stock,
+            type="bar",
+            subset='2020',
+            theme=chartTheme('black'))
+
+```
+
+
+
+
+
+```{r}
+
+# line chart with indicators overlaying it
+chartSeries(focal_stock_adjusted, 
+                 TA=c(addVo(), 
+                      addBBands(n = past_days, sd = 2, maType = "SMA", draw = 'bands'),
+                      addMomentum(n = momentum_days),
+                      addROC(n = 7),
+                      addMACD(fast=12,slow=26,signal=9,type="EMA"),
+                      addRSI(n=relative_strength_days,maType="EMA"),
+                      addTA(df_indicators$SMA, on=1, col="gray", lty = "dotted")),
+                 subset='2020',
+                 plot = TRUE,
+                 theme=chartTheme('black'))
+```
+
+
+
+
+
+

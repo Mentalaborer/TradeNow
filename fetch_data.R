@@ -19,7 +19,6 @@ data_env <- new.env()
 focal_stock <- getSymbols(stock, src = "yahoo", from = first.date,
            auto.assign = F, return.class = "xts", env = data_env)
 
-
 colnames(focal_stock) <- paste("focal",
                              c("Open", "High", "Low", "Close", "Volume", "Adjusted"),
                              sep = "_")
