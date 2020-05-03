@@ -155,8 +155,8 @@ Table of Predictions
 
 # print predictions only
 arima_sweep_display %>% 
-  select(key, value, lo.95, hi.95, dates) %>%
-  dplyr::filter(key == 'forecast')
+  select(type = key, value, lo.95, hi.95, dates) %>%
+  dplyr::filter(type == 'forecast')
 
 ```
 

@@ -9,22 +9,23 @@ source("global_filters.R")
 
 ti <- function(focal_stock){
 
-sma <-SMA(Cl(focal_stock),n=past_days)
-ema <-EMA(Cl(focal_stock),n=past_days)
-bb <-BBands(Cl(focal_stock),s.d=2)
+sma_slow <-SMA(Cl(focal_stock),n=long_past_days)
+sma_fast <- SMA(Cl(focal_stock),n=short_past_days)
+ema <-EMA(Cl(focal_stock),n=short_past_days)
+bb <-BBands(Cl(focal_stock), maType = 'SMA', n = long_past_days, sd=2)
 
 # two day momentum based on closing price
 m <- momentum(Cl(focal_stock), n=momentum_days)
 
 # two day ROC
 roc <- ROC(Cl(focal_stock),n=2)
-macd <- MACD(Cl(focal_stock), nFast=12, nSlow=26,
+macd <- MACD(Cl(focal_stock), nFast=short_past_days, nSlow=long_past_days,
              nSig=9, maType=EMA)
 
 # 14 day rsi
-rsi <- RSI(Cl(focal_stock), n=relative_strength_days)
+rsi <- RSI(Cl(focal_stock), n=relative_strength_days, maType = "SMA")
 
-tech_ind <- merge.xts(sma, ema, bb, m, roc, macd, rsi)
+tech_ind <- merge.xts(sma_slow, sma_fast, ema, bb, m, roc, macd, rsi)
 
 }
 

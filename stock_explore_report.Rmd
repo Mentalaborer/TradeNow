@@ -63,30 +63,6 @@ plot_ma
 
 ```
 
-### Price Investigation of a Single Stock of Interest
-
-
-TO DO:  Suppress data output and keep charts only
-
-```{r echo=FALSE, warning=TRUE}
-
-
-plot_actual_focal
-
-
-```
-
-```{r echo=FALSE, warning=TRUE}
-
-
-
-plot_hi_lo_focal
-
-```
-
-
-
-
 
 
 

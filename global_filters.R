@@ -25,7 +25,7 @@ library(TTR)
 #### Type of Focal Stock to Fetch ####
 
 # focal stock
-stock <- "LOGI"
+stock <- "MSFT"
 
 # set historical date parameters and frequency
 first.date <- Sys.Date()-60 #last 60 days
@@ -49,10 +49,13 @@ source("fetch_data.R")
 #### Exploration ####
 #source("stock_explore.R")
 
-#### Filters for Moving Average ####
+#### Filters for Technical Indicators ####
 
-past_days <- 20  # average of prices in the past n days (averaging over n periods)
-momentum_days = 2 # Number of days of momentum based on closing price
+# NOTE:  ~20 trading days in a month
+
+short_past_days <- 10  # average of prices in the past n days (averaging over n periods)
+long_past_days <- 20
+momentum_days = 14 # Number of days of momentum based on closing price
 relative_strength_days = 14 # RSI
 
 #### Forecast Options ####

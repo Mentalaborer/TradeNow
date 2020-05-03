@@ -11,6 +11,8 @@
 
 # Purpose: To explore a basket of stocks to identify what's up and coming
 
+## NOTE - Must run/source this script through the stock_explore_report.rmd
+
 
 # libraries 
 library(BatchGetSymbols)

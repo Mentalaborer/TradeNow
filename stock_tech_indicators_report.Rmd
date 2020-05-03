@@ -15,7 +15,7 @@ source('technical_indicators.R')
 
 
 
-```{r}
+```{r echo=FALSE}
 
 # plot hi and low prices 
 chartSeries(focal_stock,
@@ -25,21 +25,55 @@ chartSeries(focal_stock,
 
 ```
 
+### Relative Strength Index (RSI)
+* It is the smoothed ratio of 'average' gains over 'average' losses.
+* A momentum oscillator that measures the speed and change of price movements
+* Traditionally the RSI is considered overbought when above 70 and oversold when below 30.
+* During strong trends, the RSI may remain in overbought or oversold for extended periods
+* In an uptrend or bull market, the RSI tends to remain in the 40 to 90 range with the 40-50 zone acting as support.  
+* During a downtrend or bear market the RSI tends to stay between the 10 to 60 range with the 50-60 zone acting as resistance. 
+* While the RSI is decent, it is somewhat outdated as far as indicators go - more currently folks use David Varadi Oscillator (DVO)
+
+### Bolinger Bands
+
+* Bollinger Bands define upper and lower price range levels.
+* They are plotted at a standard deviation level above and below a simple moving average of the price.
+* Used in pairs, both upper and lower bands and in conjunction with a moving average.
+* When the bands separate by an unusual large amount, volatility increases and any existing trend may be ending. 
+* When the bands tighten (from a wide to narrow band around the price) during a period of low volatility, it raises the likelihood of a sharp price move in either direction. This may begin a trending move. 
+* When the bands separate by an unusual large amount, volatility increases and any existing trend may be ending. 
+* A strong trend continuation can be expected when the price moves out of the bands. However, if prices move immediately back inside the band, then the suggested strength is negated.
+
+
+### Momentum Oscillator
+* Momentum Oscillator is the current price divided by the price of a previous period.
+* Negative values indicate negative momentum, or decreasing price
+* Use the Momentum Oscillator in conjunction with additional indicators or price analysis when attempting to read overbought or oversold conditions.
+
+### MACD
+* Focus on whether there's a crossover b/t macd line and the signal line.  
+* MACD crossing above zero is considered bullish, while crossing below zero is bearish.
+* When the MACD line crosses from below to above the signal line, the indicator is considered bullish. The further below the zero line the stronger the signal.
+* When the MACD line crosses from above to below the signal line, the indicator is considered bearish. The further above the zero line the stronger the signal.
+
+
+#### Signals to Buy with MA
+* If the moving average with a shorter look back period crosses OVER the longer
 
 
 
-
-```{r}
+```{r echo=FALSE}
 
 # line chart with indicators overlaying it
 chartSeries(focal_stock_adjusted, 
                  TA=c(addVo(), 
-                      addBBands(n = past_days, sd = 2, maType = "SMA", draw = 'bands'),
+                      addBBands(n = long_past_days, sd = 2, maType = "SMA", draw = 'bands'),
                       addMomentum(n = momentum_days),
-                      addROC(n = 7),
-                      addMACD(fast=12,slow=26,signal=9,type="EMA"),
-                      addRSI(n=relative_strength_days,maType="EMA"),
-                      addTA(df_indicators$SMA, on=1, col="gray", lty = "dotted")),
+                      addROC(n = 2),
+                      addMACD(fast=short_past_days,slow=long_past_days,signal=9, type="SMA"),
+                      addRSI(n=relative_strength_days,maType="SMA"),
+                      addTA(df_indicators$SMA, on=1, col="gray", lty = "dotted"),
+                      addTA(df_indicators$SMA.1, on=1, col="gray", lty = "dotted")),
                  subset='2020',
                  plot = TRUE,
                  theme=chartTheme('black'))
