@@ -34,28 +34,6 @@ df_indicators <- ti(focal_stock)
 
 head(df_indicators)
 
-## Visualize technical indicators
-
-# plot hi and low prices 
-# plot_hi_lo_focal <- chartSeries(focal_stock,
-#                                 type="bar",
-#                                 subset='2020',
-#                                 theme=chartTheme('white'))
-
-# # line chart with indicators overlaying it
-# plot_actual_focal <- chartSeries(focal_stock_adjusted,
-#                                  subset='2020',
-#                                  theme=chartTheme('black'))
-# 
-# addBBands(n = past_days, sd = 2, maType = "SMA", draw = 'bands') # Bollinger Bands
-# addMomentum(n = momentum_days)
-# addROC(n = 7)
-# addMACD(fast=12,slow=26,signal=9,type="EMA")
-# addRSI(n=relative_strength_days,maType="EMA")
-# addTA(df_indicators$SMA, on=1, col="gray", lty = "dotted")
-
-
-
 
 
 
