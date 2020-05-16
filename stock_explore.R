@@ -30,6 +30,7 @@ library(quantmod)
  plot_actual <- 
   stock_historical %>%
   ggplot(aes(x = ref.date, y = price.close, color = ticker)) + 
+   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   geom_line()
 
 # graph 2
@@ -39,6 +40,7 @@ plot_trend <- stock_historical %>%
   geom_smooth(method="lm") +
   theme_dark() + 
   labs(caption="Source: Yahoo") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   facet_wrap(~ticker, scales = 'free_y') 
 
 
@@ -46,7 +48,8 @@ plot_hi_lo <- stock_historical %>%
   ggplot(aes(x = ref.date, y = price.close)) +
   geom_barchart(aes(open = price.open, high = price.high, low = price.low, close = price.close)) +
   labs(title = "Bar Chart", y = "Closing Price", x = "") + 
-  theme_tq() +
+  theme_tq() + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
   facet_wrap(~ticker, scales = 'free_y') 
 
 
@@ -61,6 +64,7 @@ plot_candle <- stock_historical %>%
   labs(caption="Source: Yahoo") +
   labs(title = "Basket of Stocks over Last 60 Days", y = "Closing Price", x = "") +
   theme_tq() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   facet_wrap(~ticker, scales = 'free_y') 
 
 # Simple Moving Averages
@@ -71,6 +75,7 @@ plot_ma <- stock_historical %>%
   geom_ma(ma_fun = SMA, n = 30, color = "red") + # Plot 200-day SMA
   #coord_x_date(xlim = c(today() - weeks(60), today()),
   #             ylim = c(100, 130))  + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   facet_wrap(~ticker, scales = 'free_y') 
 
 # Predict / forecast closing prices: https://otexts.com/fpp2/simple-methods.html

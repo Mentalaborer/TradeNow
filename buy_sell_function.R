@@ -37,18 +37,56 @@ buy_sell_signal <- function(price){
   } else
     signal_buy_sell[i]<- 0
   }
-  ## Apply Trading Rule
+#  naive_buy_sell(signal_buy_sell)
+  ## Apply Trading Rule (turn into function)
   signal_buy_sell<-reclass(signal_buy_sell, price)
   trade <- Lag(signal_buy_sell)
-  stock_return <-dailyReturn(price)*trade
-  names(stock_return) <- 'Naive'
-  return(stock_return)
+  names(trade) <- 'trade_rule'
+   stock_return <-dailyReturn(price)*trade
+   names(stock_return) <- 'Naive'
+   stock_ret <- cbind(stock_return, trade)
+ 
+  return(stock_ret)
 }
 
 simple_buy_sell <- buy_sell_signal(price) # move to report and/or global filters
 
-### START signal 3: Based on RSI ###
 
+### Signal 3: Based on RSI ###   [FIXME: rsi = 0, fix outside of function]
+
+buy_sell_rsi <- function(price){
+for (i in (day+1): length(price)){
+  if (rsi[i] < rsi_buy_cutpoint){     #buy if rsi < rsi_cutpoint
+    signal_rsi[i] <- 1
+  }else {                         #no trade all if rsi > rsi_cutpoint
+    signal_rsi[i] <- 0
+  }
+}
+
+## Apply Trading Rule (not working)
+signal_rsi<-reclass(signal_rsi, price)
+trade_rsi <- Lag(signal_rsi)
+names(trade_rsi) <- 'rsi_trade_rule'
+
+# return
+ret1 <- dailyReturn(price)*simple_buy_sell$trade_rule
+names(ret1) <- 'Naive'
+
+# construct a new variable ret2
+ret2 <- dailyReturn(price)*trade_rsi
+names(ret2) <- 'RSI'
+
+#  compare strategies with filter rules
+signal_compare <- cbind(ret1, ret2)
+
+return(signal_compare)
+
+}
+
+rsi_buy_sell <- buy_sell_rsi(price)
+
+charts.PerformanceSummary(rsi_buy_sell, 
+                          main="Naive v.s. RSI")
 
 
 

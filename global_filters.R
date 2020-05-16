@@ -72,30 +72,23 @@ delta <-0.005 # threshold for % change from previous day
 signal_buy <- c(0) # first date has no signal
 
 # Buy-Sell Rule
-signal_buy_sell <- c(NA) # first signal is NA
+
+signal_buy_sell <- c(NA)
+
 
 
 # RSI Strategy:  
 day <-relative_strength_days
 price <- focal_stock_adjusted
-rsi_buy_cutpoint <- 60                 # buy one unit if RSI < x and otherwise no trade.
-rsi_sell_cutpoint <- 70
-signal <- c()                    #initialize vector
-rsi <- RSI(price, day)     #rsi is the lag of RSI
-signal [1:day+1] <- 0            #0 because no signal until day+1
+rsi_buy_cutpoint <- 60          # buy one unit if RSI < x and otherwise no trade.
+rsi_sell_cutpoint <- 70          # rsi sell cutpoint     
+#signal_rsi <- c()                   #initialize vector
+rsi <- RSI(price, day)          #rsi is the lag of RSI
+signal_rsi[1:day+1] <- 0            #0 because no signal until day+1
 
 # combine signals
-
 signal_combine <- c()
-signal_combine[1:n] <- 0 
-
-
-
-
-
-
-
-
+#signal_combine[1:n] <- 0 
 
 
 
