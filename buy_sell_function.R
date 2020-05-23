@@ -56,14 +56,13 @@ simple_buy_sell <- buy_sell_signal(price) # move to report and/or global filters
 
 buy_sell_rsi <- function(price){
 for (i in (day+1): length(price)){
-  if (rsi[i] < rsi_buy_cutpoint){     #buy if rsi < rsi_cutpoint
+  if ((rsi[i] < rsi_upper_cutpoint) & (rsi[i] > rsi_lower_cutpoint)){     #buy if rsi b/t upper and lower limits
     signal_rsi[i] <- 1
   }else {                         #no trade all if rsi > rsi_cutpoint
     signal_rsi[i] <- 0
   }
 }
 
-## Apply Trading Rule (not working)
 signal_rsi<-reclass(signal_rsi, price)
 trade_rsi <- Lag(signal_rsi)
 names(trade_rsi) <- 'rsi_trade_rule'
@@ -83,10 +82,11 @@ return(signal_compare)
 
 }
 
-rsi_buy_sell <- buy_sell_rsi(price)
+rsi_buy_sell <- buy_sell_rsi(price) # move to report and/or global filters
 
-charts.PerformanceSummary(rsi_buy_sell, 
-                          main="Naive v.s. RSI")
+## NEXT - add signal 4 - similar setup to signal 3
+
+
 
 
 
@@ -96,5 +96,5 @@ charts.PerformanceSummary(rsi_buy_sell,
 
 #Performance Summary
 charts.PerformanceSummary(simple_buy, main="Naive Buy Rule")
-charts.PerformanceSummary(simple_buy_sell)
-
+charts.PerformanceSummary(rsi_buy_sell, 
+                          main="Naive v.s. RSI")

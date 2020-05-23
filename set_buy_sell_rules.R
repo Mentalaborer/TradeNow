@@ -62,7 +62,7 @@ source('global_filters.R')
 # names(stock_return_2) <- 'Naive'
 # charts.PerformanceSummary(stock_return_2)
 
-# ### Signal 3: Based on RSI ###
+### Signal 3: Based on RSI ###
 # for (i in (day+1): length(price)){
 #   if (rsi[i] < rsi_buy_cutpoint){     #buy if rsi < rsi_cutpoint
 #     signal[i] <- 1
@@ -81,10 +81,10 @@ source('global_filters.R')
 # # construct a new variable ret3
 # ret3 <- dailyReturn(price)*trade_3
 # names(ret3) <- 'RSI'
-# 
-# #  compare strategies with filter rules
+
+#  compare strategies with filter rules
 # signal_compare <- cbind(ret2, ret3)
-# charts.PerformanceSummary(signal_compare, 
+# charts.PerformanceSummary(signal_compare,
 #                           main="Naive v.s. RSI")
 
 ### Signal 4: Based on EMA and RSI ###
