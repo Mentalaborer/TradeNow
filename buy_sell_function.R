@@ -1,5 +1,7 @@
 
 
+## NEXT:  Create markdown report of visualizations and interpretations
+
 source('global_filters.R')
 
 ###### Generate Day Trading Signals ###### 
