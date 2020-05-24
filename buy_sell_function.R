@@ -38,10 +38,9 @@ buy_sell_signal <- function(price){
     signal_buy_sell[i]<- 0
   }
 #  naive_buy_sell(signal_buy_sell)
-  ## Apply Trading Rule (turn into function)
   signal_buy_sell<-reclass(signal_buy_sell, price)
   trade <- Lag(signal_buy_sell)
-  names(trade) <- 'trade_rule'
+  names(trade) <- 'naive_trade_rule'
    stock_return <-dailyReturn(price)*trade
    names(stock_return) <- 'Naive'
    stock_ret <- cbind(stock_return, trade)
@@ -52,7 +51,7 @@ buy_sell_signal <- function(price){
 simple_buy_sell <- buy_sell_signal(price) # move to report and/or global filters
 
 
-### Signal 3: Based on RSI ###   [FIXME: rsi = 0, fix outside of function]
+### Signal 3: Based on RSI ###   
 
 buy_sell_rsi <- function(price){
 for (i in (day+1): length(price)){
@@ -68,7 +67,7 @@ trade_rsi <- Lag(signal_rsi)
 names(trade_rsi) <- 'rsi_trade_rule'
 
 # return
-ret1 <- dailyReturn(price)*simple_buy_sell$trade_rule
+ret1 <- dailyReturn(price)*simple_buy_sell$naive_trade_rule
 names(ret1) <- 'Naive'
 
 # construct a new variable ret2
@@ -84,11 +83,34 @@ return(signal_compare)
 
 rsi_buy_sell <- buy_sell_rsi(price) # move to report and/or global filters
 
-## NEXT - add signal 4 - similar setup to signal 3
+### signal 4 - combining RSI and EMA
+
+# Buy signal based on EMA rule
+# Sell signal based on RSI rule
+
+buy_sell_rsi_ema <- function(price) {
+for (i in (day+1):length(price)){
+  if (price_change[i] > delta){
+    signal_combine[i]<- 1
+  } else if (rsi[i] > rsi_upper_cutpoint){
+    signal_combine[i]<- -1
+  } else
+    signal_combine[i]<- 0
+}
+signal_combine<-reclass(signal_combine,price)
 
 
+## Apply Trading Rule
+trade_4 <- Lag(signal_combine)
+ret4<-dailyReturn(focal_stock_adjusted)*trade_4 
+names(ret4) <- 'ema_rsi_trade'
+signal_compare_all <- cbind(rsi_buy_sell$Naive, rsi_buy_sell$RSI, ret4)
 
+return(signal_compare_all)
 
+}
+
+rsi_ema_buy_sell <- buy_sell_rsi_ema(price) # move to report and/or global filters
 
 
 
@@ -96,5 +118,13 @@ rsi_buy_sell <- buy_sell_rsi(price) # move to report and/or global filters
 
 #Performance Summary
 charts.PerformanceSummary(simple_buy, main="Naive Buy Rule")
+
 charts.PerformanceSummary(rsi_buy_sell, 
+                          wealth.index = T,
                           main="Naive v.s. RSI")
+
+charts.PerformanceSummary(rsi_ema_buy_sell, 
+                          main="Naive v.s. RSI v.s. EMA_RSI", 
+                          wealth.index = T, # starting cumulation of returns at $1 (rather than 0)
+                         # colorset = bluefocus,
+                          colorset= (1:12))

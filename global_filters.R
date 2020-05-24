@@ -80,8 +80,8 @@ signal_buy_sell <- c(NA)
 # RSI Strategy:  
 day <-relative_strength_days
 price <- focal_stock_adjusted
-rsi_upper_cutpoint <- 80          # buy one unit if RSI between X and X and sell otherwise
-rsi_lower_cutpoint <- 30          # rsi sell cutpoint     
+rsi_upper_cutpoint <- 90          # buy one unit if RSI between X and X and sell otherwise
+rsi_lower_cutpoint <- 40          # rsi sell cutpoint     
 signal_rsi <- c()                   #initialize vector
 rsi <- RSI(price, day)          #rsi is the lag of RSI
 # signal_rsi[1:day+1] <- 0            #0 because no signal until day+1
