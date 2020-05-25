@@ -1,6 +1,8 @@
 
 
-## NEXT:  Create markdown report of visualizations and interpretations
+# Purpose:  create trading signal based on rule starting with simple to complex. Recall that simple 
+#filter rule suggests buying when the price increases a lot compared to the yesterday price
+
 
 source('global_filters.R')
 
@@ -54,7 +56,6 @@ simple_buy_sell <- buy_sell_signal(price) # move to report and/or global filters
 
 
 ### Signal 3: Based on RSI ###   
-
 buy_sell_rsi <- function(price){
 for (i in (day+1): length(price)){
   if ((rsi[i] < rsi_upper_cutpoint) & (rsi[i] > rsi_lower_cutpoint)){     #buy if rsi b/t upper and lower limits
@@ -117,16 +118,16 @@ rsi_ema_buy_sell <- buy_sell_rsi_ema(price) # move to report and/or global filte
 
 
 # visualize
-
-#Performance Summary
-charts.PerformanceSummary(simple_buy, main="Naive Buy Rule")
-
-charts.PerformanceSummary(rsi_buy_sell, 
-                          wealth.index = T,
-                          main="Naive v.s. RSI")
-
-charts.PerformanceSummary(rsi_ema_buy_sell, 
-                          main="Naive v.s. RSI v.s. EMA_RSI", 
-                          wealth.index = T, # starting cumulation of returns at $1 (rather than 0)
-                         # colorset = bluefocus,
-                          colorset= (1:12))
+# 
+# #Performance Summary
+# charts.PerformanceSummary(simple_buy, main="Naive Buy Rule")
+# 
+# charts.PerformanceSummary(rsi_buy_sell, 
+#                           wealth.index = T,
+#                           main="Naive v.s. RSI")
+# 
+# charts.PerformanceSummary(rsi_ema_buy_sell, 
+#                           main="Naive v.s. RSI v.s. EMA_RSI", 
+#                           wealth.index = T, # starting cumulation of returns at $1 (rather than 0)
+#                          # colorset = bluefocus,
+#                           colorset= (1:12))

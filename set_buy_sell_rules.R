@@ -1,9 +1,14 @@
 
+
+######## DEPRECATE - THIS IS NOW FUNCTIONALIZED ######
+
+
+
 # Purpose:  create trading signal based on simple filter rule. Recall that simple 
 #filter rule suggests buying when the price increases a lot compared to the yesterday price
 
 
-source('global_filters.R')
+# source('global_filters.R')
 
 ###### Generate Day Trading Signals ###### 
 
@@ -92,23 +97,23 @@ source('global_filters.R')
 # Buy signal based on EMA rule
 # Sell signal based on RSI rule
 
-for (i in (day+1):length(price)){
-  if (price_change[i] > delta){
-    signal_combine[i]<- 1
-  } else if (rsi[i] > rsi_sell_cutpoint){
-    signal_combine[i]<- -1
-  } else
-    signal_combine[i]<- 0
-}
-signal_combine<-reclass(signal_combine,price)
-
-
-## Apply Trading Rule
-trade_4 <- Lag(signal_combine)
-ret4<-dailyReturn(focal_stock_adjusted)*trade_4 
-names(ret4) <- 'Combine'
-retall <- cbind(ret2, ret3, ret4)
-
-charts.PerformanceSummary(
-  retall, main="Naive v.s. RSI v.s. Combine",
-  colorset=bluefocus)
+# for (i in (day+1):length(price)){
+#   if (price_change[i] > delta){
+#     signal_combine[i]<- 1
+#   } else if (rsi[i] > rsi_sell_cutpoint){
+#     signal_combine[i]<- -1
+#   } else
+#     signal_combine[i]<- 0
+# }
+# signal_combine<-reclass(signal_combine,price)
+# 
+# 
+# ## Apply Trading Rule
+# trade_4 <- Lag(signal_combine)
+# ret4<-dailyReturn(focal_stock_adjusted)*trade_4 
+# names(ret4) <- 'Combine'
+# retall <- cbind(ret2, ret3, ret4)
+# 
+# charts.PerformanceSummary(
+#   retall, main="Naive v.s. RSI v.s. Combine",
+#   colorset=bluefocus)

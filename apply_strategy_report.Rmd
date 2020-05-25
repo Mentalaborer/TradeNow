@@ -1,0 +1,79 @@
+---
+title: "visualize_apply_strategy"
+output: html_document
+---
+
+```{r trade rules, include=FALSE}
+
+# run functions implement trade rules
+source('buy_sell_function.R')
+
+```
+
+Trade based on yesterday's signal 
+
+
+## Chart Landscape
+
+For each strategy, each visualization shows the `Cumalative Return` , `Daily Return` and `Draw Down`.
+
+### *Cumulative Return* 
+
+* The cumulation of daily returns in the series in terms of a `wealth index`.  
+
+* The wealth index (when true) starts the returns at 1 rather than 0.     
+
+### *Draw Down*  "How Much Underwater?"
+
+* A drawdown is the percentage change between the peak price and the lowest price (trough) of an investment.  Essentially, how much did a price drop from its peak?
+
+                                  drawdown = peak - trough / peak
+  
+                                                100 - 50 / 100 = %50                                
+
+* Example - If a stock drops from $100 to $50 and then rallies back to $100.01 or above, then the drawdown was $50 or 50% from the peak.  
+
+* Drawdowns present a significant risk to investors when considering the uptick in share price needed to overcome a drawdown. 
+
+* For example, it may not seem like much if a stock loses 1%, as it only needs an increase of 1.01% to recover to its previous peak. However, a drawdown of 20% requires a 25% return to reach the old peak
+
+* **Some investors choose to avoid drawdowns of greater than 20% before cutting their losses and turning the position into cash instead.**
+
+### *Daily Return* 
+
+      daily profit rate = daily return (close - open / open)
+
+
+###Naive Buy Rule
+
+```{r echo=FALSE}
+
+charts.PerformanceSummary(simple_buy,
+                          main="Naive Buy Rule",
+                          colorset = bluefocus)
+
+
+
+```
+
+### Naive vs. RSI
+```{r echo=FALSE}
+
+charts.PerformanceSummary(rsi_buy_sell, 
+                          wealth.index = T,
+                          main="Naive v.s. RSI")
+
+  
+```
+
+### Naive, EMA, RSI
+```{r echo=FALSE}
+
+charts.PerformanceSummary(rsi_ema_buy_sell, 
+                          main="Naive v.s. RSI v.s. EMA_RSI", 
+                          wealth.index = T, # starting cumulation of returns at $1 (rather than 0)
+                          colorset= (1:12))
+```
+
+
+
