@@ -77,3 +77,13 @@ charts.PerformanceSummary(rsi_ema_buy_sell,
 
 
 
+### Trade Strategy
+```{r echo=FALSE}
+
+charts.PerformanceSummary(ret3, 
+                          wealth.index = T,
+                          colorset = (1:12),
+                          main="Trade Size")
+
+```
+

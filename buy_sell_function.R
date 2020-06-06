@@ -116,18 +116,65 @@ return(signal_compare_all)
 rsi_ema_buy_sell <- buy_sell_rsi_ema(price) # move to report and/or global filters
 
 
+## TO DO - functionalize this
 
-# visualize
-# 
-# #Performance Summary
-# charts.PerformanceSummary(simple_buy, main="Naive Buy Rule")
-# 
-# charts.PerformanceSummary(rsi_buy_sell, 
-#                           wealth.index = T,
-#                           main="Naive v.s. RSI")
-# 
-# charts.PerformanceSummary(rsi_ema_buy_sell, 
-#                           main="Naive v.s. RSI v.s. EMA_RSI", 
-#                           wealth.index = T, # starting cumulation of returns at $1 (rather than 0)
-#                          # colorset = bluefocus,
-#                           colorset= (1:12))
+## Strategy to Test based on: 
+    # Buy one more unit if RSI <30. (lower limit)
+    # Keep buying the same if 30 < RSI < 50
+    # Stop trading if RSI >= 50
+
+for (i in (day+1): length(price)){
+  if (rsi[i] < rsi_lower_cutpoint){  #buy one more unit if rsi < lower 
+    signal_rsi[i] <- signal_rsi[i-1]+1
+  } else if (rsi[i] < rsi_upper_cutpoint){  #no change if rsi < upper
+    signal_rsi[i] <- signal_rsi[i-1] 
+  } else {         # sell  if rsi > upper
+    signal_rsi[i] <- 0
+  }
+}
+trade_size_signal<-reclass(signal_rsi,price)
+
+close <- focal_stock$focal_Close
+open <- focal_stock$focal_Open
+
+trade <- lag(trade_size_signal)
+
+#### Apply Trade Rule ####
+for (i in (day+1):length(price)){
+  profit[i] <- qty * trade[i] * (close[i] - open[i])  
+  wealth[i] <- wealth[i-1] + profit[i]
+  return[i] <- (wealth[i] / wealth[i-1]) -1  
+}
+ret3<-reclass(return,price)
+
+
+
+
+
+## test
+#test <- cbind(trade_size_signal, rsi, trade, ret3)
+##
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
