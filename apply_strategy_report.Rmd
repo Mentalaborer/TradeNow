@@ -48,7 +48,7 @@ For each strategy, each visualization shows the `Cumalative Return` , `Daily Ret
 
 ```{r echo=FALSE}
 
-charts.PerformanceSummary(simple_buy,
+charts.PerformanceSummary(apply_pcs_return,
                           main="Naive Buy Rule",
                           colorset = bluefocus)
 
@@ -56,10 +56,21 @@ charts.PerformanceSummary(simple_buy,
 
 ```
 
+### price change strategy
+```{r echo=FALSE}
+
+charts.PerformanceSummary(apply_pcbss_return, 
+                          wealth.index = T,
+                          main="Price Change Strategies")
+
+```
+
+
+
 ### Naive vs. RSI
 ```{r echo=FALSE}
 
-charts.PerformanceSummary(rsi_buy_sell, 
+charts.PerformanceSummary(signal_compare, 
                           wealth.index = T,
                           main="Naive v.s. RSI")
 
@@ -69,7 +80,7 @@ charts.PerformanceSummary(rsi_buy_sell,
 ### Naive, EMA, RSI
 ```{r echo=FALSE}
 
-charts.PerformanceSummary(rsi_ema_buy_sell, 
+charts.PerformanceSummary(signal_compare_all, 
                           main="Naive v.s. RSI v.s. EMA_RSI", 
                           wealth.index = T, # starting cumulation of returns at $1 (rather than 0)
                           colorset= (1:12))
@@ -80,7 +91,7 @@ charts.PerformanceSummary(rsi_ema_buy_sell,
 ### Trade Strategy
 ```{r echo=FALSE}
 
-charts.PerformanceSummary(ret3, 
+charts.PerformanceSummary(equity_based_return, 
                           wealth.index = T,
                           colorset = (1:12),
                           main="Trade Size")

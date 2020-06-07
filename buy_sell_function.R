@@ -8,155 +8,146 @@ source('global_filters.R')
 
 ###### Generate Day Trading Signals ###### 
 
-# basic buy function
-buy_signal <- function(price){ 
- # price %>%  
-    for (i in 2: length(price)){
-      if (price_change[i] > delta){ 
-        signal_buy[i]<- 1 
-        } else 
-          signal_buy[i]<- 0 
-        }
+##  Strategy #1
+price_change_strategy <- function(price){ 
+  for (i in 2: length(price)){
+    if (price_change[i] > delta){ 
+      signal_buy[i]<- 1 
+    } else 
+      signal_buy[i]<- 0 
+  }
 
-# Assign time to action variable using reclass;
-signal_buy<-reclass(signal_buy, price)
-colnames(signal_buy) <- 'price_change_met'
-
-# buying when the price increases a lot (by the threshold)
-trade <- lag(signal_buy, 1) # trade based on yesterday's signal
-stock_return<-dailyReturn(price)*trade # daily profit rate = daily return (close - open / open)
-names(stock_return)<-'filter'
-return(stock_return)
+  signal_buy<-reclass(signal_buy, price)
+  colnames(signal_buy) <- 'price_change_met'
+  # buying when the price increases a lot (by the threshold)
+  trade <- lag(signal_buy, 1) # trade based on yesterday's signal
+  return(trade)
 }
 
-simple_buy <- buy_signal(price) # move to report and/or global filters
+strategy_pcs <- price_change_strategy(price) 
 
-# Signal 2: Based on Simple Filter (Naive)
-buy_sell_signal <- function(price){
+##  Strategy #2
+price_change_buy_sell_strategy <- function(price){
   for (i in 2: length(price)){
-  if (price_change[i] > delta){
-    signal_buy_sell[i]<- 1
-  } else if (price_change[i]< -delta){
-    signal_buy_sell[i]<- -1
-  } else
-    signal_buy_sell[i]<- 0
+    if (price_change[i] > delta){
+      signal_buy_sell[i]<- 1
+    } else if (price_change[i]< -delta){
+      signal_buy_sell[i]<- -1
+    } else
+      signal_buy_sell[i]<- 0
   }
-#  naive_buy_sell(signal_buy_sell)
+  
   signal_buy_sell<-reclass(signal_buy_sell, price)
   trade <- Lag(signal_buy_sell)
   names(trade) <- 'naive_trade_rule'
-   stock_return <-dailyReturn(price)*trade
-   names(stock_return) <- 'Naive'
-   stock_ret <- cbind(stock_return, trade)
- 
-  return(stock_ret)
+  return(trade)
 }
 
-simple_buy_sell <- buy_sell_signal(price) # move to report and/or global filters
+apply_pcbss <- price_change_buy_sell_strategy(price)
 
-
-### Signal 3: Based on RSI ###   
-buy_sell_rsi <- function(price){
-for (i in (day+1): length(price)){
-  if ((rsi[i] < rsi_upper_cutpoint) & (rsi[i] > rsi_lower_cutpoint)){     #buy if rsi b/t upper and lower limits
-    signal_rsi[i] <- 1
-  }else {                         #no trade all if rsi > rsi_cutpoint
-    signal_rsi[i] <- 0
+##  Strategy #3
+rsi_strategy <- function(price){
+  for (i in (day+1): length(price)){
+    if ((rsi[i] < rsi_upper_cutpoint) & (rsi[i] > rsi_lower_cutpoint)){     #buy if rsi b/t upper and lower limits
+      signal_rsi[i] <- 1
+    }else {                         #no trade all if rsi > rsi_cutpoint
+      signal_rsi[i] <- 0
+    }
   }
+  signal_rsi<-reclass(signal_rsi, price)
+  trade_rsi <- Lag(signal_rsi)
+  names(trade_rsi) <- 'rsi_trade_rule'
+  return(trade_rsi)
 }
+  
+apply_rsi <- rsi_strategy(price)
 
-signal_rsi<-reclass(signal_rsi, price)
-trade_rsi <- Lag(signal_rsi)
-names(trade_rsi) <- 'rsi_trade_rule'
-
-# return
-ret1 <- dailyReturn(price)*simple_buy_sell$naive_trade_rule
-names(ret1) <- 'Naive'
-
-# construct a new variable ret2
-ret2 <- dailyReturn(price)*trade_rsi
-names(ret2) <- 'RSI'
-
-#  compare strategies with filter rules
-signal_compare <- cbind(ret1, ret2)
-
-return(signal_compare)
-
-}
-
-rsi_buy_sell <- buy_sell_rsi(price) # move to report and/or global filters
-
-### signal 4 - combining RSI and EMA
+## Strategy #4
 
 # Buy signal based on EMA rule
 # Sell signal based on RSI rule
 
-buy_sell_rsi_ema <- function(price) {
-for (i in (day+1):length(price)){
-  if (price_change[i] > delta){
-    signal_combine[i]<- 1
-  } else if (rsi[i] > rsi_upper_cutpoint){
-    signal_combine[i]<- -1
-  } else
-    signal_combine[i]<- 0
-}
-signal_combine<-reclass(signal_combine,price)
-
-
-## Apply Trading Rule
-trade_4 <- Lag(signal_combine)
-ret4<-dailyReturn(focal_stock_adjusted)*trade_4 
-names(ret4) <- 'ema_rsi_trade'
-signal_compare_all <- cbind(rsi_buy_sell$Naive, rsi_buy_sell$RSI, ret4)
-
-return(signal_compare_all)
-
+rsi_ema_strategy <- function(price) {
+  for (i in (day+1):length(price)){
+    if (price_change[i] > delta){
+      signal_combine[i]<- 1
+    } else if (rsi[i] > rsi_upper_cutpoint){
+      signal_combine[i]<- -1
+    } else
+      signal_combine[i]<- 0
+  }
+  signal_combine<-reclass(signal_combine,price)
+  trade_4 <- Lag(signal_combine)
+  names(trade_4) <- 'ema_rsi_combined'
+  return(trade_4)
 }
 
-rsi_ema_buy_sell <- buy_sell_rsi_ema(price) # move to report and/or global filters
+apply_rsi_ema <- rsi_ema_strategy(price)
 
-
-## TO DO - functionalize this
-
-## Strategy to Test based on: 
+## Strategy #5
     # Buy one more unit if RSI <30. (lower limit)
-    # Keep buying the same if 30 < RSI < 50
+    # Keep buying the same if 30 < RSI < 50 
     # Stop trading if RSI >= 50
 
-for (i in (day+1): length(price)){
-  if (rsi[i] < rsi_lower_cutpoint){  #buy one more unit if rsi < lower 
+rsi_upper_lower_strategy <- function(price) { 
+  for (i in (day+1): length(price)){ 
+    if (rsi[i] < rsi_lower_cutpoint){  #buy one more unit if rsi < lower 
     signal_rsi[i] <- signal_rsi[i-1]+1
   } else if (rsi[i] < rsi_upper_cutpoint){  #no change if rsi < upper
     signal_rsi[i] <- signal_rsi[i-1] 
   } else {         # sell  if rsi > upper
     signal_rsi[i] <- 0
   }
-}
+  }
+  
 trade_size_signal<-reclass(signal_rsi,price)
 
+trade <- lag(trade_size_signal)
+names(trade) <- 'rsi_upper_lower'
+return(trade)
+}
+
+apply_rsi_upper_lower <- rsi_upper_lower_strategy(price)
+
+######################### Application of Strategies to Compute Returns ###################
+
+# Return for price change based on buy rules 
+apply_pcs_return <-dailyReturn(price)*price_change_strategy(price) # daily profit rate = daily return (close - open / open)
+names(apply_pcs_return)<-'filter'
+
+# Return for price change strategy based on buy sell rules 
+apply_pcbss_return <-dailyReturn(price)*price_change_buy_sell_strategy(price)
+names(apply_pcbss_return) <- 'Naive'
+apply_pcbss_return <- cbind(apply_pcbss_return, apply_pcs_return)
+
+### Return for price change and RSI signals ###
+naive_return <- dailyReturn(price)*apply_pcbss$naive_trade_rule
+names(naive_return) <- 'Naive'
+
+    # construct a new variable ret2
+      rsi_return <- dailyReturn(price)*apply_rsi$rsi_trade_rule
+      names(rsi_return) <- 'RSI'
+
+# compare strategies with filter rules
+signal_compare <- cbind(naive_return, rsi_return)
+
+# return based on rsi and ema rules 
+rsi_ema_return <- dailyReturn(price)*apply_rsi_ema 
+names(rsi_ema_return) <- 'ema_rsi_return'
+signal_compare_all <- cbind(naive_return, rsi_return, rsi_ema_return)
+
+# return based on equity
 close <- focal_stock$focal_Close
 open <- focal_stock$focal_Open
 
-trade <- lag(trade_size_signal)
-
-#### Apply Trade Rule ####
 for (i in (day+1):length(price)){
-  profit[i] <- qty * trade[i] * (close[i] - open[i])  
+  profit[i] <- qty * apply_rsi_upper_lower[i] * (close[i] - open[i])  
   wealth[i] <- wealth[i-1] + profit[i]
   return[i] <- (wealth[i] / wealth[i-1]) -1  
 }
-ret3<-reclass(return,price)
 
-
-
-
-
-## test
-#test <- cbind(trade_size_signal, rsi, trade, ret3)
-##
-
-
-
+equity_based_return <-reclass(return, price)
+names(equity_based_return) <- 'rsi_upper_lower_return'
 
 
 

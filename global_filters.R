@@ -46,8 +46,6 @@ tickers <- mary_jane
 source("fetch_data.R")
 
 
-
-
 #### Filters for Technical Indicators ####
 
 # NOTE:  ~20 trading days in a month

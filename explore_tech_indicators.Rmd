@@ -1,0 +1,24 @@
+---
+title: "tech_indicators_explore"
+output: html_document
+---
+
+```{r indicators, include=FALSE}
+
+# run functions implement trade rules
+source('technical_indicators.R')
+
+```
+
+```{r rsi}
+
+summary(df_indicators$rsi)
+
+```
+
+```{r}
+
+plot(df_indicators$rsi)
+
+
+```
