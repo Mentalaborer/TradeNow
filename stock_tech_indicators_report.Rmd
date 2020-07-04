@@ -1,5 +1,5 @@
 ---
-title: "stock_tech_indicators_report"
+title: "Trade Signals Based on Chart Inspection"
 output: html_document
 ---
 
@@ -8,22 +8,10 @@ output: html_document
 source('global_filters.R')
 source('technical_indicators.R')
 
-
-## NEXT STEP - interpret each indicator
-
 ```
 
 
-
-```{r echo=FALSE}
-
-# plot hi and low prices 
-chartSeries(focal_stock,
-            type="bar",
-            subset='2020',
-            theme=chartTheme('black'))
-
-```
+# Overview of Trade Signals
 
 ### Relative Strength Index (RSI)
 * It is the smoothed ratio of 'average' gains over 'average' losses.
@@ -60,7 +48,94 @@ chartSeries(focal_stock,
 #### Signals to Buy with MA
 * If the moving average with a shorter look back period crosses OVER the longer
 
+### Candlestick Pattern
 
+```{r echo=FALSE}
+
+# plot hi and low prices 
+chartSeries(focal_stock,
+            type="bar",
+            subset='2020',
+            theme=chartTheme('black'))
+
+```
+
+## SMA - Signal
+
+Buy signal arises when a short-run SMA crosses from below to above a long-run SMA.
+
+Sell signal arrises when a short-run SMA crosses from above to above a long-run SMA.
+
+
+```{r echo=FALSE}
+
+chartSeries(focal_stock_adjusted, 
+                 TA=c(addVo(), 
+                      addSMA(n=200,on=1,col = "blue"),
+                      addSMA(n=50,on=1,col = "red")),
+                 subset='2020',
+                 plot = TRUE,
+                 theme=chartTheme('black'))
+
+
+
+
+```
+
+## EMA - Signal
+
+Buy signal arises when a short-run EMA crosses from below to above a long-run EMA.
+
+Sell signal arrises when a short-run EMA crosses from above to above a long-run EMA.
+
+
+```{r echo=FALSE}
+
+chartSeries(focal_stock_adjusted, 
+                 TA=c(addVo(), 
+                      addEMA(n=200,on=1,col = "blue"),
+                      addEMA(n=50,on=1,col = "red")),
+                 subset='2020',
+                 plot = TRUE,
+                 theme=chartTheme('black'))
+```
+
+## Bolinger Bands
+
+Buy signal arises when price is above the band.
+
+Sell signal arises when price is below the band (check this!!)
+
+
+```{r echo=FALSE}
+
+chartSeries(focal_stock_adjusted, 
+                 TA=c(addVo(), 
+                      addBBands(n=20, sd=2)),
+                 subset='2020',
+                 plot = TRUE,
+                 theme=chartTheme('black'))
+
+```
+
+## MACD
+
+Buy signal arises when MACD crosses from below to above the signal line.
+
+Sell signal arrises when MACD crosses from above to below the signal line.
+
+```{r echo=FALSE}
+
+chartSeries(focal_stock_adjusted, 
+                 TA=c(addVo(), 
+                      addMACD(fast = 12, slow = 26, signal = 9, type = "EMA")),
+                 subset='2020',
+                 plot = TRUE,
+                 theme=chartTheme('black'))
+
+```
+
+## Bringing it All Together - Plus, More!
 
 ```{r echo=FALSE}
 
@@ -78,9 +153,5 @@ chartSeries(focal_stock_adjusted,
                  plot = TRUE,
                  theme=chartTheme('black'))
 ```
-
-
-
-
 
 

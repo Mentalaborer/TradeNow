@@ -64,3 +64,9 @@ tech <- c('FB',
           'WORK',
           'TWTR',
           'TCEHY')
+
+pharma <- c('NVAX',
+            'GILD',
+            'ABT',
+            'MRNA',
+            'RHHBY')

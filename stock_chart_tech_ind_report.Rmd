@@ -12,5 +12,8 @@ source("global_filters.R")
 
 
 
-
+# DEPRECATED - SEE STOCK_TECH_INDICATOR_REPORT.RMD
 ```
+
+
+

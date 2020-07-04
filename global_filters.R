@@ -1,9 +1,5 @@
 ## NOTE: Enter in Preferences and Run script
 
-
-# NEXT STEPS:
-
-
 library(zoo)
 library(tseries)
 library(tidyverse)
@@ -19,15 +15,13 @@ library(PerformanceAnalytics)
 library(TTR)
 
 
-
-
 #### Type of Focal Stock to Fetch ####
 
 # focal stock
-stock <- "SMG"
+stock <- "LOGI"
 
 # set historical date parameters and frequency
-first.date <- Sys.Date()-60 #last 60 days
+first.date <- Sys.Date()-365 #last 60 days
 last.date <- Sys.Date()
 freq.data <- 'daily'
 
@@ -36,11 +30,12 @@ source("stock_download.R")
 
 #### Select which basket of stocks want to explore ####
 
-tickers <- mary_jane
+# tickers <- mary_jane
 # tickers <- restaurant
 # tickers <- real_estate
 # tickers <- oil_gas
-# tickers <- tech
+ tickers <- tech
+# tickers <- pharma
 
 #### Fetch Data ####
 source("fetch_data.R")
@@ -97,24 +92,6 @@ return[1:(day+1)] <- 0
 
 profit <- c()
 profit[1:(day+1)] <- 0
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
