@@ -13,6 +13,8 @@ library(forecast)
 library(sweep)
 library(PerformanceAnalytics)
 library(TTR)
+library(dygraphs)
+library(pbapply)
 
 
 #### Type of Focal Stock to Fetch ####
@@ -21,7 +23,7 @@ library(TTR)
 stock <- "LOGI"
 
 # set historical date parameters and frequency
-first.date <- Sys.Date()-365 #last 60 days
+first.date <- Sys.Date()-365 #last x days
 last.date <- Sys.Date()
 freq.data <- 'daily'
 

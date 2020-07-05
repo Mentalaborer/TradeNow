@@ -16,4 +16,4 @@ rmarkdown::render("apply_strategy_report.Rmd")
 
 
 # add in dynamic graphing and shading on graphs - 
-# https://www.datacamp.com/community/tutorials/r-trading-tutorial#a
+# https://www.datacamp.com/community/tutorials/r-trading-tutorial
